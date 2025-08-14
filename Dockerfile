@@ -19,6 +19,9 @@ RUN apt-get update && apt-get install -y libxml2-dev \
     && docker-php-ext-install soap \
     && docker-php-ext-enable soap
 
+RUN apt-get install -y zip unzip \
+    && docker-php-ext-install zip \
+    && docker-php-ext-enable zip
 
 # Working directory
 WORKDIR /var/www/html
