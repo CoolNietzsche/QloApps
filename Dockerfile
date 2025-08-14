@@ -1,17 +1,24 @@
 FROM php:8.1-apache
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+# Install system dependencies and PHP extensions required by QloApps
+RUN apt-get update && apt-get install -y \
+    libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev zip unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd mysqli pdo pdo_mysql soap zip \
+    && docker-php-ext-enable pdo_mysql soap zip
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Copy files
+# Copy project files
 COPY . /var/www/html/
+
+# Copy PHP configuration file (we will create it next)
+COPY php.ini /usr/local/etc/php/
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/
 
-# Set working directory
 WORKDIR /var/www/html
 
 EXPOSE 80
