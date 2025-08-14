@@ -15,15 +15,21 @@ RUN apt-get update && apt-get install -y \
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
+# Suppress Apache ServerName notice
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 # Copy project files
 COPY . /var/www/html/
 
 # Copy PHP configuration file
 COPY php.ini /usr/local/etc/php/
 
-# Set permissions
+# Set correct permissions
 RUN chown -R www-data:www-data /var/www/html/
 
 WORKDIR /var/www/html
 
 EXPOSE 80
+
+# Start Apache in the foreground
+CMD ["apache2-foreground"]
