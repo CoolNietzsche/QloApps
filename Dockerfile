@@ -14,6 +14,12 @@ COPY . /var/www/html/
 # Set correct permissions
 RUN chown -R www-data:www-data /var/www/html/
 
+
+RUN apt-get update && apt-get install -y libxml2-dev \
+    && docker-php-ext-install soap \
+    && docker-php-ext-enable soap
+
+
 # Working directory
 WORKDIR /var/www/html
 
