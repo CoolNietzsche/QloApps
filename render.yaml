@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: qloapps
+    env: docker
+    plan: free
+    branch: master
+    autoDeploy: true
