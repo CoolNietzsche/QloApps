@@ -23,6 +23,8 @@ RUN apt-get install -y zip unzip \
     && docker-php-ext-install zip \
     && docker-php-ext-enable zip
 
+COPY php.ini /usr/local/etc/php/
+
 # Working directory
 WORKDIR /var/www/html
 
